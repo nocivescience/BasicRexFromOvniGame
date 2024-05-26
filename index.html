@@ -33,55 +33,55 @@
             }
         }
         class Rex{
-            constructor(x,y){
-                this.x=x;
-                this.y=y;
-                this.image1 = new Image();
-                this.image1.src = "./trex1.png";
-                this.image2 = new Image();
-                this.image2.src = "./trex2.png";
-                this.imageLoaded = false;
-                this.image1.onload = ()=>{
-                    this.imageLoaded = true;
-                }
-                this.image2.onload = ()=>{
-                    this.imageLoaded = true;
-                }
-                this.currentImage = this.image1;
+        constructor(x,y){
+            this.x=x;
+            this.y=y;
+            this.image1 = new Image();
+            this.image1.src = "./trex1.png";
+            this.image2 = new Image();
+            this.image2.src = "./trex2.png";
+            this.image1Loaded = false;
+            this.image2Loaded = false;
+            this.image1.onload = ()=>{
+                this.image1Loaded = true;
             }
-            alternateImages(){
+            this.image2.onload = ()=>{
+                this.image2Loaded = true;
+            }
+            this.currentImage = this.image1;
+        }
+        alternateImages(){
+            setInterval(()=>{
+                if(!this.image1Loaded || !this.image2Loaded){
+                    return;
+                }
                 if(this.currentImage == this.image1){
                     this.currentImage = this.image2;
                 }else{
                     this.currentImage = this.image1;
                 }
-                setInterval(()=>{
-                    if(!this.imageLoaded){
-                        return;
-                    }
-                    this.x+=1;
-                    if(this.x>window.innerWidth){
-                        this.x=0;
-                    }
-                    const canvas = document.createElement("canvas");
-                    canvas.setAttribute("width", canvas.width);
-                    canvas.setAttribute("height", canvas.height);
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    const ctx = canvas.getContext("2d");
-                    ctx.drawImage(enviroment.image,enviroment.x,0, canvas.width, canvas.height);
-                    ctx.drawImage(enviroment.image,enviroment.x+canvas.width,0, canvas.width, canvas.height);
-                    ctx.drawImage(this.currentImage,this.x,this.y,100,100);
-                    document.querySelector(".container").innerHTML = "";
-                    document.querySelector(".container").appendChild(canvas);
-                },1000/60);
-            }
+                this.x+=1;
+                if(this.x>window.innerWidth){
+                    this.x=0;
+                }
+                const canvas = document.createElement("canvas");
+                canvas.setAttribute("width", canvas.width);
+                canvas.setAttribute("height", canvas.height);
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(enviroment.image,enviroment.x,0, canvas.width, canvas.height);
+                ctx.drawImage(enviroment.image,enviroment.x+canvas.width,0, canvas.width, canvas.height);
+                ctx.drawImage(this.currentImage,this.x,this.y,100,100);
+                document.querySelector(".container").innerHTML = "";
+                document.querySelector(".container").appendChild(canvas);
+            },100);
         }
+    }
         const enviroment = new Enviroment(0);
         const rex = new Rex(0,window.innerHeight-100);
         rex.alternateImages();
         setInterval(()=>{
-            ree
             if(!enviroment.imageLoaded){
                 return;
             }
@@ -99,7 +99,7 @@
             ctx.drawImage(enviroment.image,enviroment.x+canvas.width,0, canvas.width, canvas.height);
             document.querySelector(".container").innerHTML = "";
             document.querySelector(".container").appendChild(canvas);
-        },1000/60);
+        },100);
     </script>
 </body>
 </html>
